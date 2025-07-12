@@ -6,10 +6,10 @@ from datetime import datetime
 import os
 from typing import Optional
 
-# Configurazione dell'app
+# App configuration
 app = FastAPI(title="FormLog API", version="1.0.0")
 
-# Configurazione CORS
+# CORS configuration
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],  # Frontend React
@@ -18,37 +18,37 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Configurazione Database
+# Database configuration
 MONGODB_URL = os.getenv("MONGODB_URL", "mongodb://admin:password@localhost:27017/formlog?authSource=admin")
 DATABASE_NAME = os.getenv("DATABASE_NAME", "formlog")
 COLLECTION_NAME = os.getenv("COLLECTION_NAME", "contacts")
 
 client: Optional[AsyncIOMotorClient] = None
 
-# Modelli Pydantic
+# Pydantic models
 class ContactForm(BaseModel):
-    nome: str
+    name: str
     email: EmailStr
-    messaggio: str
+    message: str
 
 class ContactResponse(BaseModel):
     id: str
-    nome: str
+    name: str
     email: str
-    messaggio: str
-    data_creazione: datetime
+    message: str
+    created_date: datetime
 
-# Eventi di avvio e chiusura
+# Startup and shutdown events
 @app.on_event("startup")
 async def startup_db_client():
     global client
     client = AsyncIOMotorClient(MONGODB_URL)
     try:
-        # Test della connessione
+        # Connection test
         await client.admin.command('ping')
-        print("✅ Connesso a MongoDB!")
+        print("✅ Connected to MongoDB!")
     except Exception as e:
-        print(f"❌ Errore connessione MongoDB: {e}")
+        print(f"❌ MongoDB connection error: {e}")
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
@@ -56,34 +56,34 @@ async def shutdown_db_client():
     if client:
         client.close()
 
-# Endpoint per il form di contatto
+# Contact form endpoint
 @app.post("/api/contacts", response_model=dict)
 async def create_contact(contact: ContactForm):
     try:
-        # Prepara i dati per il database
+        # Prepare data for database
         contact_data = {
-            "nome": contact.nome,
+            "name": contact.name,
             "email": contact.email,
-            "messaggio": contact.messaggio,
-            "data_creazione": datetime.now()
+            "message": contact.message,
+            "created_date": datetime.now()
         }
         
-        # Inserisce nel database
+        # Insert into database
         db = client[DATABASE_NAME]
         collection = db[COLLECTION_NAME]
         result = await collection.insert_one(contact_data)
         
         return {
             "success": True,
-            "message": "Messaggio inviato con successo!",
+            "message": "Message sent successfully!",
             "contact_id": str(result.inserted_id)
         }
     
     except Exception as e:
-        print(f"Errore durante l'inserimento: {e}")
-        raise HTTPException(status_code=500, detail="Errore interno del server")
+        print(f"Error during insertion: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
 
-# Endpoint per recuperare tutti i contatti (opzionale, per debug)
+# Endpoint to retrieve all contacts (optional, for debug)
 @app.get("/api/contacts")
 async def get_contacts():
     try:
@@ -94,22 +94,22 @@ async def get_contacts():
         async for contact in collection.find():
             contacts.append({
                 "id": str(contact["_id"]),
-                "nome": contact["nome"],
+                "name": contact["name"],
                 "email": contact["email"],
-                "messaggio": contact["messaggio"],
-                "data_creazione": contact["data_creazione"]
+                "message": contact["message"],
+                "created_date": contact["created_date"]
             })
         
         return {"contacts": contacts}
     
     except Exception as e:
-        print(f"Errore durante il recupero: {e}")
-        raise HTTPException(status_code=500, detail="Errore interno del server")
+        print(f"Error during retrieval: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
 
-# Endpoint di health check
+# Health check endpoint
 @app.get("/api/health")
 async def health_check():
-    return {"status": "OK", "message": "API funzionante"}
+    return {"status": "OK", "message": "API working"}
 
 # Root endpoint
 @app.get("/")

@@ -6,8 +6,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>FormLog - Contatti</h1>
-        <p>Invia un messaggio attraverso il form di contatto</p>
+        <h1>FormLog - Contacts</h1>
+        <p>Send a message through the contact form</p>
       </header>
       <main>
         <ContactForm />

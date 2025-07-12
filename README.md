@@ -1,101 +1,101 @@
-# FormLog - Mini-app Fullstack
+# FormLog - Fullstack Mini-app
 
-Una mini-applicazione fullstack per la gestione dei contatti con:
-- **Frontend**: React con Vite
+A fullstack mini-application for contact management with:
+- **Frontend**: React with Vite
 - **Backend**: FastAPI (Python)
 - **Database**: MongoDB
 
-## 🚀 Funzionalità
+## 🚀 Features
 
-- Form di contatto responsive con validazione
-- Invio dati tramite API REST
-- Salvataggio in database MongoDB
-- Messaggi di conferma e gestione errori
-- Design moderno e user-friendly
+- Responsive contact form with validation
+- Data submission via REST API
+- Data storage in MongoDB database
+- Confirmation messages and error handling
+- Modern and user-friendly design
 
-## 📋 Prerequisiti
+## 📋 Prerequisites
 
-Assicurati di avere installato:
-- **Node.js** (versione 18 o superiore)
-- **Python** (versione 3.8 o superiore)
-- **Docker** e **Docker Compose**
+Make sure you have installed:
+- **Node.js** (version 18 or higher)
+- **Python** (version 3.8 or higher)
+- **Docker** and **Docker Compose**
 
-## 🛠️ Installazione e Avvio
+## 🛠️ Installation and Setup
 
-### 1. Clona il repository
+### 1. Clone the repository
 ```bash
-git clone <url-repository>
+git clone <repository-url>
 cd formlog
 ```
 
-### 2. Avvia MongoDB con Docker
+### 2. Start MongoDB with Docker
 ```bash
 docker-compose up -d
 ```
 
-### 3. Configura il Backend
+### 3. Configure Backend
 
-#### Installa le dipendenze Python
+#### Install Python dependencies
 ```bash
 cd backend
 pip install -r requirements.txt
 ```
 
-#### Configura le variabili d'ambiente
-Crea un file `.env` nella cartella `backend` con il seguente contenuto:
+#### Configure environment variables
+Create a `.env` file in the `backend` folder with the following content:
 ```
 MONGODB_URL=mongodb://admin:password@localhost:27017/formlog?authSource=admin
 DATABASE_NAME=formlog
 COLLECTION_NAME=contacts
 ```
 
-#### Avvia il server FastAPI
+#### Start FastAPI server
 ```bash
-# Dalla cartella backend
+# From backend folder
 python main.py
 
-# Oppure usando uvicorn direttamente
+# Or using uvicorn directly
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-Il backend sarà disponibile su: `http://localhost:8000`
+Backend will be available at: `http://localhost:8000`
 
-### 4. Configura il Frontend
+### 4. Configure Frontend
 
-#### Installa le dipendenze Node.js
+#### Install Node.js dependencies
 ```bash
 cd ../frontend
 npm install
 ```
 
-#### Avvia il server di sviluppo
+#### Start development server
 ```bash
 npm run dev
 ```
 
-Il frontend sarà disponibile su: `http://localhost:3000`
+Frontend will be available at: `http://localhost:3000`
 
-## 🎯 Utilizzo
+## 🎯 Usage
 
-1. Apri il browser e vai su `http://localhost:3000`
-2. Compila il form con:
-   - **Nome**: Il tuo nome
-   - **Email**: La tua email (validata automaticamente)
-   - **Messaggio**: Il tuo messaggio
-3. Clicca su "Invia Messaggio"
-4. Vedrai un messaggio di conferma se l'invio è andato a buon fine
+1. Open browser and go to `http://localhost:3000`
+2. Fill the form with:
+   - **Name**: Your name
+   - **Email**: Your email (automatically validated)
+   - **Message**: Your message
+3. Click "Send Message"
+4. You'll see a confirmation message if submission is successful
 
 ## 📚 API Endpoints
 
 ### POST `/api/contacts`
-Crea un nuovo contatto
+Create a new contact
 
 **Request Body:**
 ```json
 {
-  "nome": "Mario Rossi",
-  "email": "mario.rossi@example.com",
-  "messaggio": "Ciao, questo è un messaggio di prova"
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "message": "Hello, this is a test message"
 }
 ```
 
@@ -103,126 +103,126 @@ Crea un nuovo contatto
 ```json
 {
   "success": true,
-  "message": "Messaggio inviato con successo!",
+  "message": "Message sent successfully!",
   "contact_id": "507f1f77bcf86cd799439011"
 }
 ```
 
 ### GET `/api/contacts`
-Recupera tutti i contatti (per debug)
+Retrieve all contacts (for debugging)
 
 ### GET `/api/health`
-Health check del server
+Server health check
 
-## 🏗️ Struttura del Progetto
+## 🏗️ Project Structure
 
 ```
 formlog/
 ├── backend/
-│   ├── main.py                 # App FastAPI principale
-│   ├── requirements.txt        # Dipendenze Python
-│   └── .env.example           # Esempio variabili d'ambiente
+│   ├── main.py                 # Main FastAPI app
+│   ├── requirements.txt        # Python dependencies
+│   └── .env.example           # Environment variables example
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── ContactForm.jsx    # Componente form
-│   │   │   └── ContactForm.css    # Stili form
-│   │   ├── App.jsx                # Componente principale
-│   │   ├── App.css                # Stili app
-│   │   ├── index.css              # Stili globali
+│   │   │   ├── ContactForm.jsx    # Form component
+│   │   │   └── ContactForm.css    # Form styles
+│   │   ├── App.jsx                # Main component
+│   │   ├── App.css                # App styles
+│   │   ├── index.css              # Global styles
 │   │   └── main.jsx               # Entry point
-│   ├── package.json               # Dipendenze Node.js
-│   ├── vite.config.js             # Configurazione Vite
-│   └── index.html                 # HTML principale
-├── docker-compose.yml             # Configurazione MongoDB
-└── README.md                      # Documentazione
+│   ├── package.json               # Node.js dependencies
+│   ├── vite.config.js             # Vite configuration
+│   └── index.html                 # Main HTML
+├── docker-compose.yml             # MongoDB configuration
+└── README.md                      # Documentation
 ```
 
-## 🔧 Sviluppo
+## 🔧 Development
 
-### Comandi Utili
+### Useful Commands
 
 **Backend:**
 ```bash
-# Avvia con reload automatico
+# Start with auto-reload
 uvicorn main:app --reload
 
-# Visualizza logs
+# View logs
 python main.py
 ```
 
 **Frontend:**
 ```bash
-# Avvia sviluppo
+# Start development
 npm run dev
 
-# Build per produzione
+# Build for production
 npm run build
 
-# Lint del codice
+# Lint code
 npm run lint
 ```
 
 **MongoDB:**
 ```bash
-# Avvia MongoDB
+# Start MongoDB
 docker-compose up -d
 
-# Ferma MongoDB
+# Stop MongoDB
 docker-compose down
 
-# Visualizza logs
+# View logs
 docker-compose logs -f mongodb
 ```
 
 ## 🐳 MongoDB
 
-### Configurazione Database
+### Database Configuration
 - **Host**: localhost:27017
 - **Database**: formlog
 - **Collection**: contacts
 - **Username**: admin
 - **Password**: password
 
-### Connessione diretta
+### Direct connection
 ```bash
-# Con MongoDB Compass
+# With MongoDB Compass
 mongodb://admin:password@localhost:27017/formlog?authSource=admin
 
-# Con mongo shell
+# With mongo shell
 mongo mongodb://admin:password@localhost:27017/formlog?authSource=admin
 ```
 
-## 🛡️ Sicurezza
+## 🛡️ Security
 
-- Validazione input lato client e server
-- Validazione email con pydantic
-- Gestione errori per evitare crash
-- CORS configurato per localhost
+- Input validation on client and server side
+- Email validation with pydantic
+- Error handling to prevent crashes
+- CORS configured for localhost
 
-## 📝 Note Tecniche
+## 📝 Technical Notes
 
-- **FastAPI**: Framework asincrono per API REST
-- **Motor**: Driver MongoDB asincrono per Python
-- **Vite**: Build tool veloce per React
-- **Axios**: Client HTTP per le chiamate API
-- **CSS moderno**: Flexbox, Grid, e animazioni smooth
+- **FastAPI**: Asynchronous framework for REST APIs
+- **Motor**: Asynchronous MongoDB driver for Python
+- **Vite**: Fast build tool for React
+- **Axios**: HTTP client for API calls
+- **Modern CSS**: Flexbox, Grid, and smooth animations
 
 ## 🚨 Troubleshooting
 
-### Errore connessione MongoDB
+### MongoDB connection error
 ```bash
-# Verifica che MongoDB sia in esecuzione
+# Check if MongoDB is running
 docker-compose ps
 
-# Riavvia MongoDB
+# Restart MongoDB
 docker-compose restart mongodb
 ```
 
-### Errore CORS
-Assicurati che il frontend sia in esecuzione su `http://localhost:3000` e il backend su `http://localhost:8000`
+### CORS error
+Make sure frontend is running on `http://localhost:3000` and backend on `http://localhost:8000`
 
-### Errore dipendenze
+### Dependencies error
 ```bash
 # Backend
 pip install -r requirements.txt
@@ -231,14 +231,14 @@ pip install -r requirements.txt
 npm install
 ```
 
-## 📄 Licenza
+## 📄 License
 
-Questo progetto è rilasciato sotto licenza MIT.
+This project is released under MIT license.
 
-## 🤝 Contributi
+## 🤝 Contributions
 
-I contributi sono benvenuti! Apri una issue o una pull request.
+Contributions are welcome! Open an issue or a pull request.
 
 ---
 
-**Creato con ❤️ usando React, FastAPI e MongoDB** 
+**Created with ❤️ using React, FastAPI and MongoDB**

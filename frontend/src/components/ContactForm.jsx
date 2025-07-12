@@ -4,9 +4,9 @@ import './ContactForm.css'
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
-    nome: '',
+    name: '',
     email: '',
-    messaggio: ''
+    message: ''
   })
   
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -30,12 +30,12 @@ const ContactForm = () => {
       
       if (response.data.success) {
         setSubmitStatus('success')
-        setFormData({ nome: '', email: '', messaggio: '' }) // Reset form
+        setFormData({ name: '', email: '', message: '' }) // Reset form
       } else {
         setSubmitStatus('error')
       }
     } catch (error) {
-      console.error('Errore durante l\'invio:', error)
+      console.error('Error during submission:', error)
       setSubmitStatus('error')
     } finally {
       setIsSubmitting(false)
@@ -45,18 +45,18 @@ const ContactForm = () => {
   return (
     <div className="contact-form-container">
       <form onSubmit={handleSubmit} className="contact-form">
-        <h2>Contattaci</h2>
+        <h2>Contact Us</h2>
         
         <div className="form-group">
-          <label htmlFor="nome">Nome *</label>
+          <label htmlFor="name">Name *</label>
           <input
             type="text"
-            id="nome"
-            name="nome"
-            value={formData.nome}
+            id="name"
+            name="name"
+            value={formData.name}
             onChange={handleChange}
             required
-            placeholder="Inserisci il tuo nome"
+            placeholder="Enter your name"
           />
         </div>
 
@@ -69,20 +69,20 @@ const ContactForm = () => {
             value={formData.email}
             onChange={handleChange}
             required
-            placeholder="Inserisci la tua email"
+            placeholder="Enter your email"
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="messaggio">Messaggio *</label>
+          <label htmlFor="message">Message *</label>
           <textarea
-            id="messaggio"
-            name="messaggio"
-            value={formData.messaggio}
+            id="message"
+            name="message"
+            value={formData.message}
             onChange={handleChange}
             required
             rows="5"
-            placeholder="Scrivi il tuo messaggio..."
+            placeholder="Write your message..."
           />
         </div>
 
@@ -91,20 +91,20 @@ const ContactForm = () => {
           className="submit-btn"
           disabled={isSubmitting}
         >
-          {isSubmitting ? 'Invio in corso...' : 'Invia Messaggio'}
+          {isSubmitting ? 'Sending...' : 'Send Message'}
         </button>
 
         {submitStatus === 'success' && (
           <div className="success-message">
-            <p>✅ Messaggio inviato con successo!</p>
-            <p>Ti risponderemo il prima possibile.</p>
+            <p>✅ Message sent successfully!</p>
+            <p>We will reply as soon as possible.</p>
           </div>
         )}
 
         {submitStatus === 'error' && (
           <div className="error-message">
-            <p>❌ Errore nell'invio del messaggio.</p>
-            <p>Riprova più tardi o contattaci direttamente.</p>
+            <p>❌ Error sending message.</p>
+            <p>Please try again later or contact us directly.</p>
           </div>
         )}
       </form>
