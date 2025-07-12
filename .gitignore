@@ -1,0 +1,45 @@
+# Dipendenze
+node_modules/
+*/node_modules/
+
+# Ambiente virtuale Python
+venv/
+env/
+.env
+
+# File di cache
+.cache/
+.parcel-cache/
+
+# Build outputs
+dist/
+build/
+*.pyc
+__pycache__/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite
+
+# Temporary files
+*.tmp
+*.temp
+
+# Coverage
+coverage/
+.coverage
+.nyc_output 
